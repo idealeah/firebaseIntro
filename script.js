@@ -40,6 +40,9 @@ function draw() {}
 function sendPoem() {
     title = titleInput.value();
     poemText = poemInput.value();
+    poemInput.value(" ");
+    titleInput.value(" ");
+
 
     if (title != "" && poemText != "") {
 
@@ -79,10 +82,9 @@ function getPoem() {
 
         let poemRef = db.ref('poems/' + title + "/text");
         poemRef.once("value").then(function (snapshot) {
-            var poem = snapshot.val();
+            let poem = snapshot.val();
 
-            let newStrings = splitNChars(poem, 65);
-            console.log(newStrings);
+            let newStrings = splitWords(poem, 8);
 
             for (i = 0; i < newStrings.length; i++) {
                 text(newStrings[i], 20, 350 + i * 30);
@@ -91,10 +93,17 @@ function getPoem() {
     }
 }
 
-function splitNChars(txt, num) {
-    var result = [];
-    for (var i = 0; i < txt.length; i += num) {
-        result.push(txt.substr(i, num));
+function splitWords(txt, num) {
+    let result = [];
+    result = txt.split(" ");
+    let newLines = [];
+    for (let j = 0; j < result.length; j += num) {
+        let newLine = [];
+        for (let i = 0; i < num; i++) {
+            newLine.push(result[i + j]);
+        }
+        let str = newLine.join(" ");
+        newLines.push(str);
     }
-    return result;
+    return newLines;
 }
