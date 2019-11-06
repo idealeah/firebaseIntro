@@ -43,7 +43,6 @@ function sendPoem() {
     poemInput.value(" ");
     titleInput.value(" ");
 
-
     if (title != "" && poemText != "") {
 
         db.ref('poems/' + title).set({
